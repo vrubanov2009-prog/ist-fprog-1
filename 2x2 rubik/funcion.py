@@ -1,6 +1,3 @@
-def simple(a):
-    return 1
-
 def translate_in(a):
     b = extend(a)
     c = str(count(b))
