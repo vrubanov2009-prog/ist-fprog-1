@@ -1,4 +1,6 @@
 #print(True + True == 2)
 #print(True)
 #print(isinstance(0, bool))
-print("01223"[0])
+#print("01234"[-2:])
+#print([0, 1, 2, 3, 4][2:] + 4)
+print((1, 2, 3) + (4, 5))
