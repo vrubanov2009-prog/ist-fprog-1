@@ -5,15 +5,10 @@ def cria_cor(n_cor):
         raise ValueError("cria_cor: argumentos invalidos")
 
 def eh_cor(cor_i):
-    if cor_i in (1, 2, 3, 4, 5, 6):
-        return True
-    else:
-        return False
+    return cor_i in range(0, 7)
 
 def cores_iguais(v, u):
-    if eh_cor(v) and eh_cor(u) and u == v:
-        return True
-    return False
+    return eh_cor(v) and eh_cor(u) and v == u
 
 def cor_para_str(cor_i):
     return str(cor_i)
