@@ -3,4 +3,5 @@
 #print(isinstance(0, bool))
 #print("01234"[-2:])
 #print([0, 1, 2, 3, 4][2:] + 4)
-print((1, 2, 3) + (4, 5))
+#print((1, 2, 3) + (4, 5))
+print(list(str(12345)))
