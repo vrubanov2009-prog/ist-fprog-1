@@ -81,16 +81,19 @@ def simples(seq):
     else:
         return simples(seq_s)
 
+def peso_mov(mov):
+    return (3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1)[mov]
+
 def algoritmo_simplificar(seq, contador = 0):
     if len(seq) == 1:
         if contador == 0:
             return seq
         else:
-            return [[], [(seq[-1] % 6) + 6], [(seq[-1] % 6) + 6, (seq[-1] % 6) + 6], [seq[-1] % 6]][(contador + (3 - 2 * (seq[-1] // 6))) % 4]
+            return [[], [(seq[-1] % 6) + 6], [(seq[-1] % 6) + 6, (seq[-1] % 6) + 6], [seq[-1] % 6]][(contador + peso_mov(seq[-1])) % 4]
     elif seq[-1] % 6 == seq[-2] % 6:
-        return algoritmo_simplificar(seq[:-1], (contador + (3 - 2 * (seq[-1] // 6))) % 4)
+        return algoritmo_simplificar(seq[:-1], (contador + peso_mov(seq[-1])) % 4)
     else:
-        return algoritmo_simplificar(seq[:-1]) + [[], [(seq[-1] % 6) + 6], [(seq[-1] % 6) + 6, (seq[-1] % 6) + 6], [seq[-1] % 6]][(contador + (3 - 2 * (seq[-1] // 6))) % 4]
+        return algoritmo_simplificar(seq[:-1]) + [[], [(seq[-1] % 6) + 6], [(seq[-1] % 6) + 6, (seq[-1] % 6) + 6], [seq[-1] % 6]][(contador + peso_mov(seq[-1])) % 4]
 
 
 
@@ -99,4 +102,4 @@ def algoritmo_simplificar(seq, contador = 0):
 #print(eh_movimento(12))
 #print(sequencia_para_str(simplifica_sequencia(str_para_sequencia("U'UUF'FDF"))))
 #print(str_para_sequencia("U'UUF'FDF"))
-print(sequencia_inversa((1,5,3,9,10)))
+#print(sequencia_inversa((1,5,3,9,10)))

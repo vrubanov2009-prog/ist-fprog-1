@@ -5,7 +5,7 @@ def cria_cor(n_cor):
         raise ValueError("cria_cor: argumentos invalidos")
 
 def eh_cor(cor_i):
-    return cor_i in range(0, 7)
+    return cor_i in range(1, 7)
 
 def cores_iguais(v, u):
     return eh_cor(v) and eh_cor(u) and v == u
