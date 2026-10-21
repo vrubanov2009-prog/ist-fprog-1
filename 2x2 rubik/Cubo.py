@@ -12,7 +12,7 @@ def cria_cor(n_cor):
 
 #eh_cor
 def eh_cor(cor):
-    return cor in range(6)
+    return type(cor) is int and cor in range(6)
 
 #cores_iguais
 def cores_iguais(v, u):
@@ -28,7 +28,7 @@ def str_para_cor(Str):
 
 #cor_para_int
 def cor_para_int(cor):
-    return cor
+    return cor + 1
 
 #2.2 movimentos 
 #plano: movimentos sao de 0 a 11, assim posso transformar mov em outros com calculos e aritmetica modular e usar mov como indices
@@ -53,7 +53,7 @@ def obtem_mov_sentido(mov):
 
 #eh_movimento
 def eh_movimento(mov):
-    return mov in range(12)
+    return type(mov) is int and mov in range(12)
 
 #movimentos_iguais
 def movimentos_iguais(mov1, mov2):
@@ -110,7 +110,9 @@ def sequencia_inversa(seq):
 #print(sequencia_inversa((5, 9, 2, 4)))
 
 #simplifica_sequencia
-def simplifica_sequencia(seq):       #checa se a seq atual eh igual a simplificacao da seq, se ambas iguais entao nao ha mais partes para simplificar
+def simplifica_sequencia(seq):      #checa se a seq atual eh igual a simplificacao da seq, se ambas iguais entao nao ha mais partes para simplificar
+    if seq == ():
+        return ()
     seq_s = algoritmo_simplificar(seq)
     if seq_s == seq:
         return seq
@@ -144,15 +146,19 @@ def cria_cubo():        #as posicoes de cada face sao tais que sao iguais em mod
 
 #cria_cubo_de_str
 def cria_cubo_de_str(Str):
-    if len(Str) == 24:
+    if isinstance(Str, str) and len(Str) == 24:
         for i in range(24):
             if not Str[i] in cores:
                 raise ValueError("cria_cubo_de_str: argumentos invalidos")
-    return tuple(cria_cor(Str[i]) for i in (0, 4, 8, 12, 16, 20, 1, 5, 9, 13, 17, 21, 2, 6, 10, 14, 18, 22, 3, 7, 11, 15, 19, 23))     #transformacao que equivale a minha representacao
+        return tuple(cria_cor(Str[i]) for i in (0, 4, 8, 12, 16, 20, 1, 5, 9, 13, 17, 21, 2, 6, 10, 14, 18, 22, 3, 7, 11, 15, 19, 23))
+        #transformacao que equivale a minha representacao
+    raise ValueError("cria_cubo_de_str: argumentos invalidos")
+#testes
+#print(cria_cubo_de_str(1))
 
 #cria_copia_cubo
 def cria_copia_cubo(cubo):
-    return cubo
+    return tuple(i for i in cubo)
 
 #obtem_cor_face
 def obtem_cor_face(cubo, face):
@@ -182,25 +188,27 @@ transformacoes = (
     (0, 1, 2, 3, 4, 17, 6, 7, 8, 9, 10, 5, 12, 16, 13, 14, 15, 23, 18, 22, 19, 20, 21, 11)
 )
 #sei que nao testa completamente, ateh porque se testase eu seria capaz de escrever um codigo que fizesse essa tabela por mim ;-;
-def goofy_teste_transforacoes(Str):
+def goofy_teste_transformacoes(Str):
     for i in range(24):
         if not transformacoes[str_para_movimento(Str)][i] == transformacoes[movimento_inverso(str_para_movimento(Str))].index(i):
             print(False, i)
     return 0
-#goofy_teste_transforacoes("U")
+#goofy_teste_transformacoes("U")
 
 def roda_cubo(cubo, mov):
     return tuple(cubo[i] for i in transformacoes[mov])
 
 #eh_cubo
 def eh_cubo(cubo):
-    if len(cubo) != 24:
+    if not (isinstance(cubo, (tuple, list)) and len(cubo) == 24):
         return False
     else:
         for i in range(24):
             if not eh_cor(cubo[i]):
                 return False
         return True
+#testes
+#print(eh_cubo(1))
 
 #eh_cubo_valido
 def eh_cubo_valido(cubo):
@@ -235,8 +243,8 @@ def linha_pequena(part):
 
 #aplica_sequencia
 def aplica_sequencia(cubo, seq):
-    if len(seq) == 1:
-        return roda_cubo(cubo, seq[0])
+    if len(seq) == 0:
+        return cubo
     else:
         return aplica_sequencia(roda_cubo(cubo, seq[0]), seq[1:])
 #testes
@@ -253,4 +261,19 @@ def numero_faces_resolvidas(cubo):
 #esta_resolvido
 def esta_resolvido(cubo):
     return numero_faces_resolvidas(cubo) == 6 and eh_cubo_valido(cubo)
-print(cubo_para_str(aplica_sequencia(cria_cubo(), simplifica_sequencia(str_para_sequencia("FFUB")))))
+#testes
+#print(cubo_para_str(aplica_sequencia(cria_cubo(), simplifica_sequencia(str_para_sequencia("FFUB")))))
+
+tabela = ("U", "U'", "D", "D'", "L", "L'", "R", "R'", "F", "F'", "B", "B'")
+def baralha_cubo(cubo, N_mov, seed):
+    if eh_cubo(cubo) and type(N_mov, seed) is (int, int) and seed in range(0, 13) and N_mov >= 0:
+        return aplica_sequencia(cubo, tuple(tabela[i] for i in gerador_pseudo_aleatorio(N_mov, (seed * 2) % 13)))
+    else:
+        raise ValueError("baralha_cubo: argumentos invalidos")
+
+def gerador_pseudo_aleatorio(N_mov, seed):
+    if N_mov == 0:
+        return ()
+    return (seed - 1,) + gerador_pseudo_aleatorio(N_mov - 1, (seed * 2) % 13)
+#testes
+#print(tuple(tabela[i] for i in gerador_pseudo_aleatorio(6, 3))[1:])
