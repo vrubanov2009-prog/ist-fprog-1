@@ -130,12 +130,12 @@ def str_para_sequencia(Str):
     Gera ValueError se algum dos movimentos nao for valido."""
     if Str == "":      #fim da recursao
         return ()
-    elif Str[-1] == "'" and len(Str) != 1:        #discriminar entre horario e antihorario, para aceder e cortar em indices diferentes
+    elif Str == "'":                        #serve para resolver o problema de se Str == "'", neste caso sem esse elif,
+        return str_para_movimento(Str)      #daria sintaxerror pois tentaria acessar Str[-2] que nao existe
+    elif Str[-1] == "'":        #discriminar entre horario e antihorario, para aceder e cortar em indices diferentes
         return str_para_sequencia(Str[:-2]) + (str_para_movimento(Str[-2:]),)
-    elif eh_movimento(Str[-1]):
-        return str_para_sequencia(Str[:-1]) + (str_para_movimento(Str[-1]),)
     else:
-        return str_para_movimento(Str[-1])        #essa linha existe para se o input for "'" gerar vallueerror do str_para_movimento e nao sintaxerror
+        return str_para_sequencia(Str[:-1]) + (str_para_movimento(Str[-1]),)
 
 #sequencia_para_str
 #fiz recurcivamente: f(n) = f(n - 1) + g(n)
@@ -503,7 +503,7 @@ def goofy_teste_transformacoes():
 #str_para_movimento(Str)
 
 #str_para_sequencia
-#Str = "UFK'D"
+#Str = "'UF'D"
 #str_para_sequencia(Str)
 
 #cria_cubo_de_str
